@@ -40,7 +40,35 @@ struct va va2 = { 2, { NULL }};
 struct va va1 = { 1, { &va2.purge_list }};
 /* struct llist_node *valist = &va2.purge_list; */
 struct llist_node *valist = NULL;
-
+void o(){
+};
+void e(){
+}
+void f(){
+	e();
+}
+void d(){
+	might_sleep();
+	f();
+}
+void c(){
+	d();
+}
+void b(){
+	c();
+}
+void intr_atomic(){
+	b();
+	o();
+}
+void a(){
+	b();
+	f();
+}
+void sys_read(){
+	a();
+	o();
+}
 void foo(struct va *va) {
 	if (&va->purge_list != 0)
 		printf("Buggy!\n");
@@ -51,6 +79,7 @@ int main(int argc, char *argv[]) {
 
 	va = llist_entry(valist, typeof(*va), purge_list);
 	foo(va);
+	a();
 
 	/* llist_for_each_entry(va, valist, purge_list) { */
 	/* 	printf("%d\n", va->i); */

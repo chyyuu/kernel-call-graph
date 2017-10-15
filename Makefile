@@ -18,6 +18,6 @@ buggy.bc: buggy.c
 	clang -emit-llvm -c $<
 
 run: pass.so buggy.bc
-	opt -load ./pass.so -disable-output -play buggy.bc
+	opt -load ./pass.so -disable-output -play buggy.bc 2>cg.txt
 clean:
-	rm buggy.bc pass.o pass.so
+	rm buggy.bc pass.o pass.so cg.txt

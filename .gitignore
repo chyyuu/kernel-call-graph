@@ -4,4 +4,6 @@
 *.so
 *.f
 *.org
-allfuns.txt
+*.txt
+*.pdf
+*.png
