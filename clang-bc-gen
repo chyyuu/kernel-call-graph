@@ -1,0 +1,53 @@
+#!/bin/bash
+
+cmdline=
+srcfile=
+
+while test $# -gt 0; do
+    srcfile=$1
+    shift
+    if [[ "$1" == "-mpreferred-stack-boundary=2" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-fconserve-stack" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-fno-var-tracking-assignments" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-fno-delete-null-pointer-checks" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-Wno-unused-but-set-variable" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-Wa,-mtune=generic32" ]]; then
+	continue
+    fi
+    if [[ "$1" == "--param=allow-store-data-races=0" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-fcall-saved-ecx" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-fcall-saved-edx" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-mapcs" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-mno-sched-prolog" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-mno-thumb-interwork" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-march=armv7-a" ]]; then
+	cmdline+=" -target arm-none-linux-gnueabi"
+	continue
+    fi
+    cmdline+=" $1"
+done
+
+srcfile=${srcfile#../}
+clang -emit-llvm -w -Wno-parentheses-equality -Wno-gcc-compat $cmdline -c -o ${srcfile%.c}.bc && opt -mem2reg ${srcfile%.c}.bc -o ${srcfile%.c}.bc
