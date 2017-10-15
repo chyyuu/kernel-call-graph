@@ -1,0 +1,7 @@
+*.bc
+*.xz
+*.o
+*.so
+*.f
+*.org
+allfuns.txt

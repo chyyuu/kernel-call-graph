@@ -46,6 +46,16 @@ while test $# -gt 0; do
 	cmdline+=" -target arm-none-linux-gnueabi"
 	continue
     fi
+    if [[ "$1" == "-mno-fp-ret-in-387" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-mpreferred-stack-boundary=3" ]]; then
+	continue
+    fi
+    if [[ "$1" == "-mskip-rax-setup" ]]; then
+	continue
+    fi
+
     cmdline+=" $1"
 done
 
