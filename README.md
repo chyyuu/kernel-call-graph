@@ -1,7 +1,13 @@
 # kernel-call-graph
 
 ## try to find buggy path
-
+### run
+```
+make clean # clean files
+make  #build pass.so, buggy.bc
+make run #produce cg.txt with call graph info in buggy.c
+python cg.py # show call graph
+```
 ### ideas
  1. 第一步，我需要找到调用了might_sleep(用M表示)的所有call graph路径.  A-->...-->{...M...}-->Z
  1. 第二步，然后分析这些路径中位于M之前的函数集合是否有属于atomic_context的，且没有改变，把此属性一直传递到M，就出错了。
@@ -9,10 +15,10 @@
 ### problems
  1. 广度：如何得到尽量完整的call graph? 如何解决函数指针问题？
  1. 精度：如何加入path-sensitive信息？提高 call graph的精度？
- 1. atomic_context的识别？何时enable? 何时disable? 需要体现在 node中
+ 1. atomic_context的识别？何时跟踪aotmic context的变化？ 何时enable? 何时disable? 需要体现在 node中
 
 ### example
-buggy.c 是一个程序，其生成的call graph为g.txt
+buggy.c 是一个程序，其生成的call graph为cg.txt
 
 ```
 o 
