@@ -25,13 +25,13 @@ public:
 	}
 
 	virtual bool runOnFunction(Function &F) {
-		errs() << F.getName() << "\n";
+		errs() << "* " << F.getName() << "\n";
 
 		for_each_inst(F, I) {
 			if (auto CI = dyn_cast<CallInst>(&I)) {
 				Function *called = CI->getCalledFunction();
 				if (called)
-					errs() << "\t" << called->getName() << "\n";
+					errs() << "---> " << called->getName() << "\n";
 			}
 		}
 		return true;
